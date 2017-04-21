@@ -1,0 +1,35 @@
+*{
+	margin:0px;
+	font-family: "myriad-pro", sans-serif;
+}
+body{
+	background-color: #333;
+}
+a{
+	text-decoration: none;
+	color:white;
+}
+h1{
+	font-family: "OpenSans", sans-serif;
+}
+#content-wrapper{
+	max-width: 800px;
+	width: calc(100vw - 16px);
+	background-color: #000;
+	margin: auto;
+	margin-top: 8px;
+	text-align: center;
+	padding: 8px;
+	color: white;
+}
+.linkButton{
+	display: inline-block;
+	width: 300px;
+	padding: 10px;
+	margin: 5px;
+	background-color: #555;
+	border-radius: 10px;
+}
+.linkButton:hover{
+	background-color: #888;
+}
