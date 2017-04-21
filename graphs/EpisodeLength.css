@@ -8,3 +8,15 @@
 	cursor: default;
 	padding: 2px;
 }
+h1,h2,h3{
+	margin-bottom: 10px;
+}
+#descriptionBox{
+	display: hidden;
+	background-color: #DDD;
+	color: black;
+	text-align: left;
+	margin-top: 10px;
+	border-radius: 5px;
+	padding: 5px;
+}

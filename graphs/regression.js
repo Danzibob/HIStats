@@ -7,7 +7,7 @@ var Regressor = function (xVals,yVals,L){
 	this.L = L
 
 	this.f = function (x){
-		return (this.n*Math.log(x) + this.m*x + this.c)
+		return (this.n*Math.log(x+1) + this.m*x + this.c)
 	}
 
 	this.calcErr = function (){
@@ -19,19 +19,20 @@ var Regressor = function (xVals,yVals,L){
 			var yi = this.yVals[i]
 			if (!isNaN(yi)){
 				var f = this.f(xi)
-				dn += (-2*Math.log(xi))*(yi-f)
+				dn += (-2*Math.log(xi+1))*(yi-f)
 				dm += (-2*xi)*(yi-f)
 				dc += (-2)*(yi-f)
 			}
 		}
-		if (dn == Infinity || dm == Infinity || dc == Infinity){
-			noLoop()
+		if (min(abs(dn),abs(dm),abs(dc)) < 0.05){
+			regressed = true
+			console.log("Regressed.")
 		}
 		return {n:dn,m:dm,c:dc}
 	}
 
 	this.improve = function(N){
-		for (var i = 0; i < N; i++){
+		for (var i = 0; i < N && !regressed; i++){
 			var grad = this.calcErr()
 			this.n -= grad.n*this.L
 			this.m -= grad.m*this.L

@@ -1,7 +1,8 @@
 var rssAPIcall = "https://api.rss2json.com/v1/api.json?rss_url=http%3A%2F%2Fwww.hellointernet.fm%2Fpodcast%3Fformat%3Drss&api_key=ziatazw6kwobgfc4qezuxezsm61nwuxy57zwlgks&order_by=pubDate&order_dir=asc&count=200"
 var table,tableReady
 var xMax,xRes,yMax,yRes
-var regressor
+var regressor,regressed
+var currentMin = null
 
 $(document).mousemove(function(e){
     $("#Caption").css({left:e.pageX+2, top:e.pageY-20});
@@ -11,6 +12,7 @@ function setup(){
 	var w = $("#content-wrapper").width()
 	var cnv = createCanvas(w,w*9/16)
 	cnv.parent("content-wrapper")
+	$('#content-wrapper').append("<div id='descriptionBox'></div>")
 	tableReady = false
 	makeTable(rssAPIcall)
 }
@@ -23,7 +25,7 @@ function draw(){
 		stroke(200)
 		strokeWeight(5)
 		var minDist = 16
-		var currentMin = null
+		currentMin = null
 		for (var i = 0; i <= xMax; i++){
 			if(table.durations[i] != NaN){
 				var x = width*i/xMax
@@ -40,7 +42,7 @@ function draw(){
 			strokeWeight(8)
 			stroke(255)
 			point(width*currentMin/xMax,height*(1-table.durations[currentMin]/yMax))
-			showToolTip(table.titles[currentMin])
+			showToolTip(table.titles[currentMin] + " - " + nfc(table.durations[currentMin],0) + "mins")
 		} else {
 			hideToolTip()
 		}
@@ -54,7 +56,7 @@ function draw(){
 				vertex(i,height-(regressor.f(x)*height/yMax))
 			}
 			endShape(OPEN)
-			regressor.improve(100)
+			if (!regressed){regressor.improve(100)}
 		}
 	}
 }
@@ -62,13 +64,18 @@ function draw(){
 function makeTable(url){
 	table = {
 		titles: [],
-		durations: []
+		durations: [],
+		descriptions: [],
+		dates: []
 	}
 	$("#content-wrapper").append("<table id='dataTable'></table>")
 	$.get(url, function(data){
+		console.log(data)
 		for (var i in data.items){
 			table.titles.push(data.items[i].title)
 			table.durations.push(data.items[i].enclosure.duration/60)
+			table.descriptions.push(data.items[i].content)
+			table.dates.push(data.items[i].pubDate)
 		}
 		makeRegressor()
 		tableReady = true
@@ -81,6 +88,7 @@ function makeRegressor(){
 		xVals.push(i+1)
 	}
 	regressor = new Regressor(xVals,table.durations,0.000001)
+	regressed = false
 }
 
 
@@ -91,4 +99,14 @@ function showToolTip(text){
 }
 function hideToolTip(){
 	$('#Caption').hide();
+}
+
+function mousePressed(){
+	if (currentMin != null){
+		$('#descriptionBox').html("")
+		$('#descriptionBox').append("<h2>"+table.titles[currentMin]+"</h2>")
+							.append("<h3>"+table.dates[currentMin]+"</h3>")
+							.append(table.descriptions[currentMin])
+		$('#descriptionBox *').slice(3).remove()
+	}
 }
