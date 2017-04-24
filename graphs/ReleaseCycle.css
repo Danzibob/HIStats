@@ -1,0 +1,9 @@
+#controls{
+	width:100%;
+	text-align: center;
+	background-color: #555;
+}
+.modeSwitch{
+	font-weight: 24px;
+	display: inline-block;
+}
