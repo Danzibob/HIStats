@@ -12,7 +12,7 @@ function setup(){
 	var w = $("#content-wrapper").width()
 	var cnv = createCanvas(w,w*9/16)
 	cnv.parent("content-wrapper")
-	$('#content-wrapper').append("<div id='descriptionBox'></div>")
+	$('#content-wrapper').append("<div id='descriptionBox'>Click a point to see more info</div>")
 	tableReady = false
 	makeTable(rssAPIcall)
 }
@@ -22,6 +22,17 @@ function draw(){
 	if (tableReady){
 		xMax = table.titles.length
 		yMax = 200
+		textAlign(RIGHT)
+		var hours = [height-60*height/yMax,height-120*height/yMax,height-180*height/yMax]
+		for (var i in hours){
+			stroke(128)
+			strokeWeight(1)
+			line(0,hours[i],width,hours[i])
+			noStroke()
+			fill(128)
+			text(int(i)+1 + " hours",width,hours[i])
+		}
+		text
 		stroke(200)
 		strokeWeight(5)
 		var minDist = 16
@@ -47,8 +58,8 @@ function draw(){
 			hideToolTip()
 		}
 		if (regressor != null){
-			stroke(128)
-			strokeWeight(1)
+			stroke(255)
+			strokeWeight(2)
 			noFill()
 			beginShape()
 			for (var i = 0; i <= width; i++){
@@ -79,6 +90,8 @@ function makeTable(url){
 		}
 		makeRegressor()
 		tableReady = true
+		$("#loader").hide()
+		$("canvas").show()
 	})
 }
 

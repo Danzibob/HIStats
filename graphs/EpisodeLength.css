@@ -7,6 +7,7 @@
 	position: absolute;
 	cursor: default;
 	padding: 2px;
+	display: none;
 }
 h1,h2,h3{
 	margin-bottom: 10px;
@@ -19,4 +20,35 @@ h1,h2,h3{
 	margin-top: 10px;
 	border-radius: 5px;
 	padding: 5px;
+}
+
+#loader{
+	margin:auto;
+	margin-top:100px;
+	margin-bottom: 100px;
+	width:50px;
+	height: 50px;
+	border-radius: 50px;
+	border-top: #3d3d3d solid 5px;
+	border-bottom: #3d3d3d solid 5px;
+	border-left: black solid 5px;
+	border-right: black solid 5px;
+	animation: spin 2s linear infinite;
+}
+
+@keyframes spin{
+	0%{
+		transform:rotate(0deg) scale(1,1);
+	}
+	50%{
+		transform:rotate(180deg) scale(1.2,1.2);
+	}
+	100%{
+		transform:rotate(360deg) scale(1,1);
+	}
+
+}
+
+canvas{
+	display:none;
 }

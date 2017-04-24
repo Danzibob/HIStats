@@ -4,10 +4,14 @@
 }
 body{
 	background-color: #888;
+	text-align: center;
 }
 a{
 	text-decoration: none;
 	color:white;
+}
+a.decor{
+	text-decoration: underline;
 }
 h1{
 	font-family: "OpenSans", sans-serif;
@@ -36,4 +40,17 @@ h1{
 }
 .linkButton:hover{
 	background-color: #888;
+}
+
+#homeButton{
+	display: inline-block;
+	border: black 5px solid;
+	border-radius: 5px;
+	background-color: #DDD;
+	color: black;
+	font-size: 30px;
+	font-weight: bold;
+	text-align: center;
+	margin-top: 20px;
+	padding:5px;
 }
